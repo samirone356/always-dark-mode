@@ -579,3 +579,18 @@ html.theme-transition-reverse::view-transition-new(root) {
     animation: none !important;
   }
 }
+
+@keyframes pen-writing {
+  0%   { transform: translateY(0) rotate(-8deg); }
+  50%  { transform: translateY(-2px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(-8deg); }
+}
+
+.pen-writing {
+  animation: pen-writing 0.28s ease-in-out infinite;
+  transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pen-writing { animation: none; }
+}
