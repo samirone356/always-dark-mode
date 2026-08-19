@@ -1,16 +1,23 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { DotLottie } from "@lottiefiles/dotlottie-react";
+import {
+  getCachedLottie,
+  loadLottieData,
+  loadLottiePlayer,
+  prefetchLottie,
+} from "@/lib/lottie-cache";
 
 /**
  * Performance-first Lottie wrapper.
  *
- * - The player bundle *and* the animation JSON are code-split and only fetched
- *   once the element is close to the viewport (IntersectionObserver, 200px margin).
- * - Playback pauses whenever the element scrolls out of view or the tab is hidden,
- *   so an idle animation never burns a rAF loop.
- * - `prefers-reduced-motion` short-circuits everything: we render the static
- *   fallback and never download the animation at all.
- * - SSR-safe: nothing loads during render, so there is no hydration mismatch.
+ * - The player bundle *and* the animation bytes are fetched only when the
+ *   element gets close to the viewport (IntersectionObserver).
+ * - Both are memoized module-level, so revisiting a route (or rendering the
+ *   same icon twice) reuses the already-parsed bytes with zero extra requests.
+ * - Playback pauses when offscreen or when the tab is hidden.
+ * - `prefers-reduced-motion` short-circuits everything: static fallback only,
+ *   nothing is downloaded.
+ * - SSR-safe: nothing loads during render.
  */
 export function LottieIcon({
   src,
@@ -19,8 +26,10 @@ export function LottieIcon({
   fallback = null,
   speed = 1,
   playOnce = false,
+  rootMargin = "300px",
+  eager = false,
 }: {
-  /** URL of the animation JSON/.lottie, e.g. `import url from "@/assets/lottie/x.lottie?url"` */
+  /** URL of the animation .lottie/JSON, e.g. `import url from "@/assets/x.lottie?url"` */
   src: string;
   loop?: boolean;
   className?: string;
@@ -29,14 +38,25 @@ export function LottieIcon({
   speed?: number;
   /** Play a single time when first revealed (no loop, no replay). */
   playOnce?: boolean;
+  /** How early to start fetching relative to the viewport. */
+  rootMargin?: string;
+  /** Skip the viewport gate (use for above-the-fold / hover-triggered icons). */
+  eager?: boolean;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<DotLottie | null>(null);
   const playedRef = useRef(false);
+  const startedRef = useRef(false);
   const [Player, setPlayer] = useState<
     typeof import("@lottiefiles/dotlottie-react").DotLottieReact | null
   >(null);
-  const loadingRef = useRef(false);
+  const [data, setData] = useState<ArrayBuffer | null>(
+    () => getCachedLottie(src) ?? null,
+  );
+
+  useEffect(() => {
+    setData(getCachedLottie(src) ?? null);
+  }, [src]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -44,15 +64,27 @@ export function LottieIcon({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let cancelled = false;
+
+    const start = () => {
+      if (startedRef.current) return;
+      startedRef.current = true;
+      void Promise.all([loadLottiePlayer(), loadLottieData(src)])
+        .then(([lib, buf]) => {
+          if (cancelled) return;
+          setPlayer(() => lib.DotLottieReact);
+          setData(buf);
+        })
+        .catch(() => {
+          startedRef.current = false;
+        });
+    };
+
+    if (eager) start();
+
     const io = new IntersectionObserver(
       (entries) => {
         const visible = entries.some((e) => e.isIntersecting);
-        if (visible && !loadingRef.current) {
-          loadingRef.current = true;
-          void import("@lottiefiles/dotlottie-react").then((lib) => {
-            if (!cancelled) setPlayer(() => lib.DotLottieReact);
-          });
-        }
+        if (visible) start();
         const p = playerRef.current;
         if (!p) return;
         if (visible) {
@@ -63,7 +95,7 @@ export function LottieIcon({
           p.pause();
         }
       },
-      { rootMargin: "200px" },
+      { rootMargin },
     );
     io.observe(host);
 
@@ -79,13 +111,15 @@ export function LottieIcon({
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [playOnce]);
+  }, [src, playOnce, rootMargin, eager]);
 
   return (
     <div ref={hostRef} className={className} aria-hidden="true">
-      {Player ? (
+      {Player && data ? (
         <Player
-          src={src}
+          // dotLottie can take ownership of the buffer, so hand it a copy and
+          // keep the cached original intact for the next mount.
+          data={data.slice(0)}
           loop={playOnce ? false : loop}
           autoplay
           speed={speed}
@@ -101,3 +135,5 @@ export function LottieIcon({
     </div>
   );
 }
+
+export { prefetchLottie };
