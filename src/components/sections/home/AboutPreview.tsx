@@ -1,6 +1,6 @@
-import { Play } from "lucide-react";
-import { SmartImage } from "@/components/ui/SmartImage";
-import { IMAGE_SIZES } from "@/lib/image";
+import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import portraitAsset from "@/assets/portrait-cutout.png.asset.json";
 
 export function AboutPreview() {
   return (
