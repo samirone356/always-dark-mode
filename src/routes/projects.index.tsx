@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { projects, projectFilters } from "@/data";
 import { Reveal } from "@/components/ui/Reveal";
-import { LottieAside } from "@/components/ui/LottieAside";
 import { ProjectCard, type ProjectView } from "@/components/ui/ProjectCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ProjectGridSkeleton, PageSkeleton } from "@/components/ui/Skeletons";
