@@ -7,7 +7,7 @@ import { LottieIcon } from "@/components/ui/LottieIcon";
 const socials = [
   {
     Icon: Github,
-    lottie: "/lottie/social/github.json",
+    lottie: "/lottie/social/github.lottie",
     label: "GitHub",
     href: "https://github.com/Mostafa-SAID7",
     bgClass: "bg-[var(--social-github)]",
@@ -15,7 +15,7 @@ const socials = [
   },
   {
     Icon: Linkedin,
-    lottie: "/lottie/social/linkedin.json",
+    lottie: "/lottie/social/linkedin.lottie",
     label: "LinkedIn",
     href: "https://linkedin.com/in/mostafasamirsaid",
     bgClass: "bg-[var(--social-linkedin)]",
@@ -23,14 +23,14 @@ const socials = [
   },
   {
     Icon: Mail,
-    lottie: "/lottie/social/mail.json",
+    lottie: "/lottie/social/mail.lottie",
     label: "Email",
     href: "mailto:m.ssaid356@gmail.com",
     bgClass: "bg-[var(--social-instagram)]",
   },
   {
     Icon: MessageSquare,
-    lottie: "/lottie/social/whatsapp.json",
+    lottie: "/lottie/social/whatsapp.lottie",
     label: "WhatsApp",
     href: "https://wa.me/+201067358073",
     bgClass: "bg-[#25D366]",

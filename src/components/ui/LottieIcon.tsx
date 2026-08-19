@@ -20,7 +20,7 @@ export function LottieIcon({
   speed = 1,
   playOnce = false,
 }: {
-  /** URL of the animation JSON/.lottie, e.g. `import url from "@/assets/lottie/x.json?url"` */
+  /** URL of the animation JSON/.lottie, e.g. `import url from "@/assets/lottie/x.lottie?url"` */
   src: string;
   loop?: boolean;
   className?: string;

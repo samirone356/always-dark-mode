@@ -80,7 +80,7 @@ function SkillsPage() {
         </div>
 
         <CtaBand
-          lottie="/lottie/skills-side.json"
+          lottie="/lottie/skills-side.lottie"
           eyebrow={tr("cta.band.eyebrow")}
           title={tr("skills.cta.title")}
           description={tr("skills.cta.desc")}

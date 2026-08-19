@@ -50,7 +50,7 @@ export function Contact({ showHeading = true }: { showHeading?: boolean } = {}) 
           <p className="mb-10 text-center text-foreground/70">{tr("contact.subtitle")}</p>
         </Reveal>
 
-        <LottieAside src="/lottie/contact-side.json">
+        <LottieAside src="/lottie/contact-side.lottie">
         <Reveal>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -136,7 +136,7 @@ export function Contact({ showHeading = true }: { showHeading?: boolean } = {}) 
 
             {sent && (
               <div className="flex justify-center">
-                <LottieIcon src="/lottie/contact-success.json" className="size-24" playOnce loop={false} />
+                <LottieIcon src="/lottie/contact-success.lottie" className="size-24" playOnce loop={false} />
               </div>
             )}
 
