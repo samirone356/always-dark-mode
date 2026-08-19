@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Github, Linkedin, Mail, MessageSquare, Play } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { LottieIcon } from "@/components/ui/LottieIcon";
 
 const socials = [
   {
     Icon: Github,
+    lottie: "/lottie/social/github.json",
     label: "GitHub",
     href: "https://github.com/Mostafa-SAID7",
     bgClass: "bg-[var(--social-github)]",
@@ -12,6 +15,7 @@ const socials = [
   },
   {
     Icon: Linkedin,
+    lottie: "/lottie/social/linkedin.json",
     label: "LinkedIn",
     href: "https://linkedin.com/in/mostafasamirsaid",
     bgClass: "bg-[var(--social-linkedin)]",
@@ -19,12 +23,14 @@ const socials = [
   },
   {
     Icon: Mail,
+    lottie: "/lottie/social/mail.json",
     label: "Email",
     href: "mailto:m.ssaid356@gmail.com",
     bgClass: "bg-[var(--social-instagram)]",
   },
   {
     Icon: MessageSquare,
+    lottie: "/lottie/social/whatsapp.json",
     label: "WhatsApp",
     href: "https://wa.me/+201067358073",
     bgClass: "bg-[#25D366]",
@@ -37,6 +43,69 @@ const footerNavLinks = [
   { key: "nav.experience", to: "/experience" },
   { key: "nav.contact", to: "/contact" },
 ] as const;
+
+type Social = (typeof socials)[number];
+
+/**
+ * Footer social tile: static lucide glyph by default, swapped for a matching
+ * Lottie that replays on every hover / keyboard focus.
+ */
+function SocialTile({ Icon, lottie, label, href, bgClass, featured }: Social & { featured?: boolean }) {
+  const [plays, setPlays] = useState(0);
+  const [active, setActive] = useState(false);
+
+  const start = () => {
+    setActive(true);
+    setPlays((n) => n + 1);
+  };
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      onMouseEnter={start}
+      onFocus={start}
+      onMouseLeave={() => setActive(false)}
+      onBlur={() => setActive(false)}
+      className={`group relative grid place-items-center border-[3.5px] border-[var(--social-foreground)] shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${bgClass} ${
+        featured
+          ? "size-16 sm:size-20 md:size-[5rem] rounded-xl md:rounded-xl scale-105"
+          : "size-13 sm:size-15 md:size-[4.15rem] rounded-xl md:rounded-xl"
+      }`}
+    >
+      <Icon
+        className={`text-[var(--social-foreground)] transition-all duration-200 ${
+          active ? "scale-90 opacity-0" : "opacity-100"
+        } ${featured ? "size-8 sm:size-9" : "size-6 sm:size-7"}`}
+        strokeWidth={2.2}
+      />
+      {plays > 0 && (
+        <span
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 grid place-items-center transition-opacity duration-200 ${
+            active ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <LottieIcon
+            key={plays}
+            src={lottie}
+            loop={false}
+            playOnce
+            speed={1.1}
+            className={featured ? "size-10 sm:size-11" : "size-8 sm:size-9"}
+          />
+        </span>
+      )}
+      {featured && (
+        <span className="absolute -bottom-3 grid size-6 sm:size-7 place-items-center rounded-xl bg-card shadow-md border border-border">
+          <Play className="size-3 sm:size-3.5 fill-primary text-primary ms-0.5" />
+        </span>
+      )}
+    </a>
+  );
+}
 
 export function Footer() {
   const { tr } = useI18n();
@@ -61,31 +130,8 @@ export function Footer() {
 
               {/* Social Icons Row */}
               <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5 py-1">
-                {socials.map(({ Icon, label, href, bgClass, featured }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className={`group relative grid place-items-center border-[3.5px] border-[var(--social-foreground)] shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${bgClass} ${
-                      featured
-                        ? "size-16 sm:size-20 md:size-[5rem] rounded-xl md:rounded-xl scale-105"
-                        : "size-13 sm:size-15 md:size-[4.15rem] rounded-xl md:rounded-xl"
-                    }`}
-                  >
-                    <Icon
-                      className={`text-[var(--social-foreground)] transition-transform duration-300 group-hover:scale-110 ${
-                        featured ? "size-8 sm:size-9" : "size-6 sm:size-7"
-                      }`}
-                      strokeWidth={2.2}
-                    />
-                    {featured && (
-                      <span className="absolute -bottom-3 grid size-6 sm:size-7 place-items-center rounded-xl bg-card shadow-md border border-border">
-                        <Play className="size-3 sm:size-3.5 fill-primary text-primary ms-0.5" />
-                      </span>
-                    )}
-                  </a>
+                {socials.map((social) => (
+                  <SocialTile key={social.label} {...social} />
                 ))}
               </div>
             </div>
