@@ -94,7 +94,7 @@ export function WelcomeModal() {
         <div className="relative">
           <LottieIcon
             src="/lottie/welcome-hello.json"
-            className="mx-auto mb-2 h-28 w-28"
+            className="mx-auto mb-1 h-32 w-40"
             fallback={<Sparkles className="mx-auto h-10 w-10 text-accent" />}
           />
 
