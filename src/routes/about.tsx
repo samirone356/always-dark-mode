@@ -41,7 +41,7 @@ function AboutPage() {
       />
 
       <section className="py-6">
-        <LottieAside src="/lottie/about-side.json" size="max-w-md">
+        <LottieAside src="/lottie/about-side.lottie" size="max-w-md">
           <div className="grid grid-cols-2 gap-4">
             {STATS.map((stat) => (
               <div

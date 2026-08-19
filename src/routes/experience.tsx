@@ -32,7 +32,7 @@ function ExperiencePage() {
       <ExperiencePreview />
 
       <CtaBand
-        lottie="/lottie/experience-side.json"
+        lottie="/lottie/experience-side.lottie"
         eyebrow={tr("cta.band.eyebrow")}
         title={tr("experience.cta.title")}
         description={tr("experience.cta.desc")}
