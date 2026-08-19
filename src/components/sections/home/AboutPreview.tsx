@@ -34,7 +34,7 @@ export function AboutPreview() {
               {/* Headline */}
               <PenTyping
                 lines={["4+ Years of", "Full Stack Excellence"]}
-                className="font-['Oswald',sans-serif] text-4xl sm:text-5xl font-bold text-card-foreground leading-[1.0] mb-4"
+                className="font-['Caveat',cursive] text-5xl sm:text-6xl font-bold text-card-foreground leading-[1.1] mb-4"
               />
 
               {/* Description */}
