@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { LottieIcon } from "@/components/ui/LottieIcon";
 
 const STORAGE_KEY = "welcome-modal-seen";
 const DELAY_MS = 10_000;
@@ -91,6 +92,12 @@ export function WelcomeModal() {
         </button>
 
         <div className="relative">
+          <LottieIcon
+            src="/lottie/welcome-hello.json"
+            className="mx-auto mb-2 h-28 w-28"
+            fallback={<Sparkles className="mx-auto h-10 w-10 text-accent" />}
+          />
+
           <span className="chip mx-auto">
             <Sparkles className="h-3.5 w-3.5" />
             {tr("welcome.eyebrow")}
