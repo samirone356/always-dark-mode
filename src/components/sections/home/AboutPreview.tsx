@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import portraitAsset from "@/assets/portrait-cutout.png.asset.json";
+import { PenTyping } from "@/components/ui/PenTyping";
 
 export function AboutPreview() {
   return (
@@ -31,11 +32,10 @@ export function AboutPreview() {
               </div>
 
               {/* Headline */}
-              <h2 className="font-['Oswald',sans-serif] text-4xl sm:text-5xl font-bold text-card-foreground leading-[1.0] mb-4">
-                4+ Years of
-                <br />
-                Full Stack Excellence
-              </h2>
+              <PenTyping
+                lines={["4+ Years of", "Full Stack Excellence"]}
+                className="font-['Oswald',sans-serif] text-4xl sm:text-5xl font-bold text-card-foreground leading-[1.0] mb-4"
+              />
 
               {/* Description */}
               <p className="font-sans text-xs sm:text-sm text-card-foreground/85 leading-relaxed mb-6 max-w-sm">
