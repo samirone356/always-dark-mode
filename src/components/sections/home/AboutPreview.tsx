@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import portraitAsset from "@/assets/portrait-cutout.png.asset.json";
+import { PenTyping } from "@/components/ui/PenTyping";
 
 export function AboutPreview() {
   return (
