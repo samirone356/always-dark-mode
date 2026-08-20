@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // Latin faces only, trimmed to the weights the design actually uses.
         // Arabic families load on demand (see <ArabicFonts />).
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;700&family=Oswald:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=Caveat:wght@700&family=DM+Sans:wght@400;500;700&family=Oswald:wght@400;600;700&display=swap",
       },
 
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
