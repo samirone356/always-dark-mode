@@ -50,9 +50,7 @@ export function LottieIcon({
   const [Player, setPlayer] = useState<
     typeof import("@lottiefiles/dotlottie-react").DotLottieReact | null
   >(null);
-  const [data, setData] = useState<ArrayBuffer | null>(
-    () => getCachedLottie(src) ?? null,
-  );
+  const [data, setData] = useState<ArrayBuffer | null>(() => getCachedLottie(src) ?? null);
 
   useEffect(() => {
     setData(getCachedLottie(src) ?? null);
@@ -102,7 +100,8 @@ export function LottieIcon({
     const onVisibility = () => {
       const p = playerRef.current;
       if (!p) return;
-      document.hidden ? p.pause() : p.play();
+      if (document.hidden) p.pause();
+      else p.play();
     };
     document.addEventListener("visibilitychange", onVisibility);
 

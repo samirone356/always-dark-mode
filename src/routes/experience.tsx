@@ -42,7 +42,6 @@ function ExperiencePage() {
         </CtaLink>
         <CtaLink to="/contact">{tr("about.page.contactCta")}</CtaLink>
       </CtaBand>
-
     </PageShell>
   );
 }

@@ -25,7 +25,10 @@ export function LottieAside({
     <div className={`grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] ${className}`}>
       <div className="min-w-0">{children}</div>
       <div aria-hidden="true" className="hidden sm:block">
-        <LottieIcon src={src} className={`mx-auto aspect-square w-full ${size} ${mediaClassName}`} />
+        <LottieIcon
+          src={src}
+          className={`mx-auto aspect-square w-full ${size} ${mediaClassName}`}
+        />
       </div>
     </div>
   );
