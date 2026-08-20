@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { LottieIcon } from "@/components/ui/LottieIcon";
 
 const STORAGE_KEY = "app-preloaded";
-/** Animation shown while the app boots. */
-const BOOT_LOTTIE = "/lottie/welcome-hello.lottie";
 /** Never flash: once shown, the splash stays up at least this long. */
-const MIN_VISIBLE_MS = 900;
+const MIN_VISIBLE_MS = 350;
 /** Hard ceiling — a slow asset must never trap the visitor behind the splash. */
-const MAX_VISIBLE_MS = 4000;
-const FADE_MS = 520;
+const MAX_VISIBLE_MS = 2500;
+/** Webfonts must never gate the splash for longer than this. */
+const FONTS_TIMEOUT_MS = 600;
+const FADE_MS = 250;
 
 /**
  * Runs before first paint. If this session already booted the app (SPA
@@ -76,12 +75,14 @@ export function AppPreloader() {
             /* ignore */
           }
         }, FADE_MS);
-      }, wait + 160);
+      }, wait);
     };
 
-    const ready = Promise.all([
+    // Fonts only, and never for long: the animation runtime now loads lazily
+    // after hydration instead of gating first paint.
+    const ready = Promise.race([
       document.fonts?.ready ?? Promise.resolve(),
-      fetch(BOOT_LOTTIE, { cache: "force-cache" }).catch(() => null),
+      new Promise((r) => window.setTimeout(r, FONTS_TIMEOUT_MS)),
     ]);
     void ready.then(finish);
     const safety = window.setTimeout(finish, MAX_VISIBLE_MS);
@@ -109,12 +110,7 @@ export function AppPreloader() {
     >
       <div className="app-preloader__inner">
         <div className="app-preloader__art">
-          <LottieIcon
-            src={BOOT_LOTTIE}
-            eager
-            className="size-full"
-            fallback={<span className="app-preloader__mark">MS</span>}
-          />
+          <span className="app-preloader__mark">MS</span>
         </div>
 
         <p className="app-preloader__name">Mostafa Samir</p>
