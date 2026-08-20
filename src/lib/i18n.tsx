@@ -127,6 +127,15 @@ const t: Dict = {
     ar: "بلا ضغط — رد خلال 24 ساعة.",
   },
   "welcome.close": { en: "Close welcome message", ar: "إغلاق رسالة الترحيب" },
+  "welcome.autoclose": { en: "Closing in {s}s", ar: "الإغلاق بعد {s} ثانية" },
+  "welcome.paused": { en: "Paused", ar: "متوقف مؤقتاً" },
+  "welcome.autocloseLabel": { en: "Auto close", ar: "إغلاق تلقائي" },
+  "welcome.description": {
+    en: "This dialog closes automatically in a few seconds. Hover, focus, or touch inside to pause.",
+    ar: "يُغلق هذا الحوار تلقائياً خلال ثوانٍ. مرّر المؤشر أو ركّز أو المس داخله للإيقاف المؤقت.",
+  },
+
+
 
   "footer.headline1": { en: "You can find", ar: "يمكنك أن تجدني" },
   "footer.headline2": { en: "me here:", ar: "هنا:" },

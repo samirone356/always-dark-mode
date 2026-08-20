@@ -23,7 +23,10 @@ export function PenTyping({ lines, className = "", speed = 55 }: PenTypingProps)
     const el = ref.current;
     if (!el) return;
 
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setStarted(true);
       setCount(full.length);
       return;

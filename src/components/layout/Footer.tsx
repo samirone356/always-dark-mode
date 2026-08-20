@@ -50,7 +50,14 @@ type Social = (typeof socials)[number];
  * Footer social tile: static lucide glyph by default, swapped for a matching
  * Lottie that replays on every hover / keyboard focus.
  */
-function SocialTile({ Icon, lottie, label, href, bgClass, featured }: Social & { featured?: boolean }) {
+function SocialTile({
+  Icon,
+  lottie,
+  label,
+  href,
+  bgClass,
+  featured,
+}: Social & { featured?: boolean }) {
   const [plays, setPlays] = useState(0);
   const [active, setActive] = useState(false);
 
@@ -111,18 +118,18 @@ export function Footer() {
   const { tr } = useI18n();
 
   return (
-    <footer className="w-full text-foreground font-sans select-none overflow-hidden">
+    <footer className="w-full text-foreground select-none overflow-hidden">
       {/* Main Footer Container */}
-      <div className="w-full bg-background pt-1 pb-10 px-4 sm:px-8 md:px-12">
-        <div className="mx-auto max-w-6xl">
+      <div className="section-shell pb-10">
+        <div className="container-page">
           {/* Inner Card Panel */}
-          <div className="relative rounded-2xl bg-card p-8 sm:p-10 md:p-14 border border-border shadow-[var(--shadow-glow)] mb-8 md:mb-12 overflow-hidden">
+          <div className="relative rounded-2xl bg-card p-8 sm:p-10 md:p-14 border border-t-0 border-border shadow-glow mb-8 md:mb-12 overflow-hidden">
             {/* Center Divider */}
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-border -translate-x-1/2 pointer-events-none" />
 
             <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-6 relative z-10">
               {/* Headline */}
-              <h2 className="font-['Oswald',sans-serif] text-4xl sm:text-5xl md:text-[56px] font-bold leading-[0.92] text-card-foreground tracking-normal text-center md:text-start">
+              <h2 className="type-h2 text-card-foreground text-center md:text-start">
                 {tr("footer.headline1")}
                 <br />
                 {tr("footer.headline2")}
@@ -152,13 +159,13 @@ export function Footer() {
 
               {/* MS Square Badge */}
               <div className="grid place-items-center rounded-[8px] bg-foreground px-2.5 py-1 shadow-sm transition-transform duration-300 group-hover:scale-105">
-                <span className="keep-latin font-['Oswald',sans-serif] text-xl sm:text-2xl font-bold leading-none text-background tracking-tighter">
+                <span className="keep-latin type-wordmark [--wordmark-size:1.25rem] sm:[--wordmark-size:1.5rem] text-background">
                   MS
                 </span>
               </div>
 
               {/* Spaced MOSTAFA SAMIR Text */}
-              <div className="keep-latin flex flex-col text-start font-sans text-[10px] sm:text-[11px] font-black tracking-[0.22em] text-foreground leading-tight uppercase">
+              <div className="keep-latin flex flex-col text-start type-micro text-foreground">
                 <span>MOSTAFA</span>
                 <span>SAMIR</span>
               </div>
@@ -170,7 +177,7 @@ export function Footer() {
                 <Link
                   key={item.key}
                   to={item.to}
-                  className="font-sans text-xs sm:text-sm font-extrabold tracking-[0.25em] text-foreground transition-opacity duration-200 hover:opacity-75 uppercase"
+                  className="nav-label text-foreground transition-opacity duration-200 hover:opacity-75"
                 >
                   {tr(item.key)}
                 </Link>
@@ -178,7 +185,7 @@ export function Footer() {
             </nav>
 
             {/* Copyright */}
-            <p className="text-center md:text-end font-sans text-[10px] sm:text-[11px] font-bold tracking-[0.18em] text-foreground/80 uppercase leading-tight">
+            <p className="text-center md:text-end type-micro text-foreground/80">
               {tr("footer.copyright").replace("{year}", String(new Date().getFullYear()))}
               <br />
               {tr("footer.rights")}
