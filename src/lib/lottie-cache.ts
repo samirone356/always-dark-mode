@@ -14,8 +14,15 @@ type PlayerModule = typeof import("@lottiefiles/dotlottie-react");
 
 let playerPromise: Promise<PlayerModule> | null = null;
 
+/** Self-hosted runtime: avoids a cross-origin DNS+TLS round trip to a CDN. */
+const WASM_URL = "/wasm/dotlottie-player.wasm";
+
 export function loadLottiePlayer(): Promise<PlayerModule> {
-  if (!playerPromise) playerPromise = import("@lottiefiles/dotlottie-react");
+  if (!playerPromise)
+    playerPromise = import("@lottiefiles/dotlottie-react").then((mod) => {
+      mod.setWasmUrl(WASM_URL);
+      return mod;
+    });
   return playerPromise;
 }
 
